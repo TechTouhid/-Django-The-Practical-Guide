@@ -1,17 +1,24 @@
 {% extends "base.html" %}
+{% load static %}
 
-    {% block page_title %}
-        {{ month_name|title }} Challenge
-    {% endblock %}
+{% block page_title %}
+    {{ month_name|title }} Challenge
+{% endblock %}
 
-    {% block content %}
+{% block css_files %}
+    <link rel="stylesheet"  href="{% static "challenges/challenge.css" %}" >
+    <link rel="stylesheet"  href="{% static "challenges/includes/header.css" %}" >
+{% endblock %}
 
-        {% include "challenges/includes/header.html"%}
+{% block content %}
 
-        <h1>This {{ month_name|title }}'s challenges</h1>
-        {% if text is not None %}
-        <h2>{{ text }}</h2>
-        {% else %}
-        <p>There is no challenge for this month.</p>
-        {% endif %}
-    {% endblock %}
+    {% include "challenges/includes/header.html"%}
+    {#here 'title' is django template filters#}
+    <h1>This {{ month_name|title }}'s challenges</h1>
+    {# here if, else, are django tag#}
+    {% if text is not None %}
+    <h2>{{ text }}</h2>
+    {% else %}
+    <p>There is no challenge for this month.</p>
+    {% endif %}
+{% endblock %}
