@@ -1,0 +1,13 @@
+{% load static %}
+<li>
+    <article class="post">
+        <a href="{% url "posts_detail-page" post.slug %}">
+            <img src="{% static "blog/images/"|add:post.image %}" alt="{{post.title}}">
+            <div class="post__content">
+{#                in dictionary we need to do . not to use dic['key']#}
+                <h2>{{ post.title}}</h2>
+                <p>{{ post.excerpt }}</p>
+            </div>
+        </a>
+    </article>
+</li>
