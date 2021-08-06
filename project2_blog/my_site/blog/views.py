@@ -1,6 +1,7 @@
 from datetime import date
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Post
 
 all_posts = [
     {
@@ -69,8 +70,9 @@ def get_post(post):
 
 # Create your views here.
 def starting_page(request):
-    sorted_posts = sorted(all_posts, key=get_post)
-    latest_posts = sorted_posts[-3:]
+    latest_posts = Post.objects.order_by("-date")[:3]
+    # sorted_posts = sorted(all_posts, key=get_post)
+    # latest_posts = sorted_posts[-3:]
     return render(request, "blog/index.html",
                   {
                       "posts": latest_posts
@@ -79,13 +81,15 @@ def starting_page(request):
 
 def posts(request):
     return render(request, "blog/all-posts.html", {
-        "all_posts": all_posts
+        "all_posts": Post.objects.all()
     })
 
 
 def post_details(request, slug):
-    identified_post = next(post for post in all_posts if post['slug'] == slug)
+    # identified_post = next(post for post in all_posts if post['slug'] == slug)
+    identified_post = get_object_or_404(Post, slug=slug)
     return render(request, "blog/post-details.html",
                   {
-                      "post": identified_post
+                      "post": identified_post,
+                      "post_tags": identified_post.tag.all()
                   })
